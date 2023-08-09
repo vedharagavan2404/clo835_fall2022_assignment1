@@ -60,7 +60,7 @@ def download_file(file_name, bucket):
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', color=color_codes[COLOR], image=['http://54.172.115.56:8080/download/ilovecats.jpg'])
+    return render_template('addemp.html', color=color_codes[COLOR], image=['http://54.172.115.56:8080/download/avengers.jpg'])
 
 @app.route("/download/<filename>", methods=['GET'])
 def download(filename):

@@ -52,7 +52,7 @@ def download_file(file_name, bucket):
     Function to download a given file from an S3 bucket
     """
     s3 = boto3.resource('s3')
-    output = f"~/environment/clo835_fall2022_assignment1/ilovecats.jpg"
+    output = f"ilovecats.jpg"
     s3.Bucket(bucket).download_file(file_name, output)
 
     return output
@@ -60,18 +60,18 @@ def download_file(file_name, bucket):
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', color=color_codes[COLOR])
-
-@app.route("/about", methods=['GET','POST'])
-def about():
-    return render_template('about.html', color=color_codes[COLOR])
+    return render_template('addemp.html', color=color_codes[COLOR], image=['http://54.172.115.56:8080/download/ilovecats.jpg'])
 
 @app.route("/download/<filename>", methods=['GET'])
 def download(filename):
     if request.method == 'GET':
         output = download_file(filename, BUCKET)
         return send_file(output, as_attachment=True)
-    
+
+@app.route("/about", methods=['GET','POST'])
+def about():
+    return render_template('about.html', color=color_codes[COLOR])
+
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
     emp_id = request.form['emp_id']

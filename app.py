@@ -1,8 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 from pymysql import connections
 import os
 import random
 import argparse
+import boto3
+
+BUCKET = "final-group11-bucket"
 
 
 app = Flask(__name__)
@@ -44,6 +47,16 @@ SUPPORTED_COLORS = ",".join(color_codes.keys())
 # Generate a random color
 COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lime"])
 
+def download_file(file_name, bucket):
+    """
+    Function to download a given file from an S3 bucket
+    """
+    s3 = boto3.resource('s3')
+    output = f"~/environment/clo835_fall2022_assignment1/ilovecats.jpg"
+    s3.Bucket(bucket).download_file(file_name, output)
+
+    return output
+
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
@@ -52,6 +65,12 @@ def home():
 @app.route("/about", methods=['GET','POST'])
 def about():
     return render_template('about.html', color=color_codes[COLOR])
+
+@app.route("/download/<filename>", methods=['GET'])
+def download(filename):
+    if request.method == 'GET':
+        output = download_file(filename, BUCKET)
+        return send_file(output, as_attachment=True)
     
 @app.route("/addemp", methods=['POST'])
 def AddEmp():

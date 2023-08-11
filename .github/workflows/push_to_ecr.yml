@@ -28,13 +28,13 @@ jobs:
     - name: Build, test, tag, and push web application image to Amazon ECR  
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: web-application-image-repo
-        IMAGE_TAG: v2.0
+        ECR_REPOSITORY: clo835_final_project_app
+        IMAGE_TAG: v1.0
       run: |
         # Docker build
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         # Unit test
-        docker run -d -p 80:8080 --name webapp $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker run -d -p 8000:8080 --name webapp $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         docker ps
         echo "Pause for 10 seconds to let container start"
         sleep 10
@@ -43,13 +43,13 @@ jobs:
     - name: Build, test, tag, and push mysql db image to Amazon ECR  
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: mysqldb-image-repo
-        IMAGE_TAG: v2.0
+        ECR_REPOSITORY: clo835_final_project_db
+        IMAGE_TAG: v1.0
       run: |
         # Docker build
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile_mysql .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f dockerfile_mysql .
         # Unit test
-        docker run -d -p 80:8080 --name mysqlapp $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker run -d -p 8000:8080 --name mysqlapp $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         docker ps
         echo "Pause for 10 seconds to let container start"
         sleep 10

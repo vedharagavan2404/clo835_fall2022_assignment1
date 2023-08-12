@@ -62,6 +62,7 @@ def download_file(file_name, bucket):
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
+    print("BACKGROUND_IMAGE_URL:", BACKGROUND_IMAGE_URL)
     return render_template('addemp.html', color=color_codes[COLOR], teamname=YOUR_NAME, image=BACKGROUND_IMAGE_URL)
 
 @app.route("/download/<filename>", methods=['GET'])

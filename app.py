@@ -13,6 +13,8 @@ app = Flask(__name__)
 DBHOST = os.environ.get("DBHOST") or "localhost"
 DBUSER = os.environ.get("DBUSER") or "root"
 DBPWD = os.environ.get("DBPWD") or "passwors"
+BACKGROUND_IMAGE_URL = os.environ.get("BACKGROUND_IMAGE_URL") or "http://18.212.160.21:8080/download/ilovecats.jpg"
+YOUR_NAME = os.environ.get("YOUR_NAME") or "Group 11"
 DATABASE = os.environ.get("DATABASE") or "employees"
 COLOR_FROM_ENV = os.environ.get('APP_COLOR') or "lime"
 DBPORT = int(os.environ.get("DBPORT"))
@@ -52,7 +54,7 @@ def download_file(file_name, bucket):
     Function to download a given file from an S3 bucket
     """
     s3 = boto3.resource('s3')
-    output = f"avengers.jpg"
+    output = f"ilovecats.jpg"
     s3.Bucket(bucket).download_file(file_name, output)
 
     return output
@@ -60,7 +62,7 @@ def download_file(file_name, bucket):
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', color=color_codes[COLOR], image=['http://54.172.115.56:8080/download/avengers.jpg'])
+    return render_template('addemp.html', color=color_codes[COLOR], teamname=YOUR_NAME, image=['BACKGROUND_IMAGE_URL'])
 
 @app.route("/download/<filename>", methods=['GET'])
 def download(filename):

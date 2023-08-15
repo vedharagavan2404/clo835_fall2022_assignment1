@@ -25,8 +25,8 @@ RUN pip install -r requirements.txt
 # Install the boto3 library for AWS integration
 RUN pip install boto3
 
-# Expose port 8080 to the host system
-EXPOSE 8080
+# Expose port 81 to the host system
+EXPOSE 81
 
 # Specify the entry point for the container, which is "python3"
 ENTRYPOINT [ "python3" ]
